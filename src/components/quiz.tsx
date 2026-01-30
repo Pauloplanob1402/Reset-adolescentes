@@ -146,7 +146,7 @@ export default function Quiz() {
                 <Button
                   key={key}
                   variant="outline"
-                  className={`h-auto justify-start text-left p-4 bg-background/50 border text-foreground/80 hover:text-foreground transition-all duration-200 ease-in-out transform hover:scale-[1.02] group disabled:opacity-100 disabled:transform-none disabled:scale-100 disabled:cursor-default hover:bg-primary/10
+                  className={`h-auto min-h-min justify-start text-left py-3 px-4 bg-background/50 border text-foreground/80 hover:text-foreground transition-all duration-200 ease-in-out transform hover:scale-[1.02] group disabled:opacity-100 disabled:transform-none disabled:scale-100 disabled:cursor-default hover:bg-primary/10
                     ${key === 'C'
                       ? 'hover:border-accent hover:shadow-[0_0_12px_hsl(var(--accent))]'
                       : 'hover:border-primary hover:shadow-[0_0_8px_hsl(var(--primary))]'
@@ -158,13 +158,13 @@ export default function Quiz() {
                   onClick={() => handleAnswerSelect(key)}
                   disabled={!!selectedAnswer}
                 >
-                  <div className="flex items-center gap-4 w-full">
-                    <div className={`w-10 h-10 rounded-lg bg-secondary flex items-center justify-center font-bold font-mono text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary transition-colors
+                  <div className="flex items-start gap-4 w-full">
+                    <div className={`w-10 h-10 rounded-lg bg-secondary flex items-center justify-center font-bold font-mono text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary transition-colors flex-shrink-0
                       ${selectedAnswer === key ? 'bg-primary text-primary-foreground' : ''}`}>
                       {key}
                     </div>
-                    <span className="flex-1 text-base">{value}</span>
-                    {selectedAnswer === key && <Check className="w-6 h-6 text-accent"/>}
+                    <span className="flex-1 text-base whitespace-normal">{value}</span>
+                    {selectedAnswer === key && <Check className="w-6 h-6 text-accent self-center ml-auto"/>}
                   </div>
                 </Button>
               ))}
