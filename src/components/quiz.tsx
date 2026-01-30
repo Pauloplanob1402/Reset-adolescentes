@@ -73,14 +73,21 @@ export default function Quiz() {
     window.location.reload();
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'RESET - Fortaleça sua mente contra o bullying',
-        text: 'O bullying não te define. O RESET sim. ⚡ Fortalece um amigo: Compartilhe o RESET.',
-        url: window.location.href,
-      })
-      .catch((error) => console.log('Error sharing', error));
+  const handleShare = async () => {
+    const shareData = {
+      title: 'RESET',
+      text: 'O bullying não te define. O RESET sim. ⚡',
+      url: window.location.href
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copiado! Agora é só colar para o seu amigo.');
+      }
+    } catch (err) {
+      console.log('Erro ao compartilhar');
     }
   };
 
@@ -94,24 +101,32 @@ export default function Quiz() {
     <div className="w-full max-w-2xl mx-auto p-4 font-body">
       <header className="mb-8 flex items-center justify-between">
         <h1 className="text-4xl font-headline text-primary flex items-center gap-3">
-          <RotateCw className="w-8 h-8 text-primary drop-shadow-[0_0_5px_hsl(var(--primary))]" />
+          <RotateCw className="w-8 h-8 text-primary drop-shadow-[0_0_5px_hsl(var(--primary))]"/>
           <span>RESET</span>
         </h1>
         <div className="flex items-center gap-2 font-bold text-accent bg-accent/10 px-4 py-2 rounded-full border border-accent/20">
-          <Award className="w-5 h-5" />
+          <Award className="w-5 h-5"/>
           <span>{xp} XP</span>
         </div>
       </header>
 
       <Card className="bg-card/50 border-primary/20 backdrop-blur-lg overflow-hidden relative min-h-[550px] flex flex-col shadow-2xl shadow-primary/10">
-        <Progress value={progress} className="h-2 bg-primary/10 [&>div]:bg-accent" />
+        <Progress value={progress} className="h-2 bg-primary/10 [&>div]:bg-accent"/>
         
         {isQuizFinished ? (
           <div className="p-10 text-center flex flex-col items-center justify-center gap-6 flex-grow">
-            <h2 className="text-5xl font-headline text-accent">VOCÊ ZEROU O JOGO!</h2>
+            <p className="text-lg italic text-muted-foreground max-w-md" style={{fontWeight: 500}}>Eu aposto que você sente que ninguém sabe como é FICAR SOFRENDO TANTO BULLYING e estar preso a uma única saída, não é verdade?</p>
             <div className="text-7xl font-bold text-white">{xp} XP</div>
-            <p className="text-muted-foreground max-w-sm">Você dominou seu Neocórtex e agora é um Mestre da Mente. Recomece para fortalecer ainda mais.</p>
-            <Button onClick={handleRestart} variant="destructive" size="lg" className="font-bold uppercase tracking-widest bg-destructive/80 hover:bg-destructive text-white shadow-lg shadow-destructive/20">
+            
+            <Card className="bg-background/20 border-primary/20 p-4 rounded-lg max-w-md">
+                <p className="text-sm text-foreground/80 mb-2" style={{fontWeight: 500}}>O bullying não define você. A verdadeira força está na empatia e na coragem de ouvir.</p>
+                <p className="text-sm font-semibold text-white" style={{fontWeight: 500}} >Se estiver pesado demais, procure um professor ou um adulto de confiança. Você não está sozinho.</p>
+            </Card>
+
+            <Button onClick={handleShare} variant="default" size="lg" className="font-bold tracking-wide bg-accent/90 hover:bg-accent text-white shadow-lg shadow-accent/20">
+              Curtiu o RESET? Compartilhe com quem também precisa despertar o Neocórtex. ⚡
+            </Button>
+            <Button onClick={handleRestart} variant="outline" size="sm" className="font-bold uppercase tracking-widest text-muted-foreground hover:text-white mt-4">
               REINICIAR RUN
             </Button>
           </div>
@@ -149,7 +164,7 @@ export default function Quiz() {
                       {key}
                     </div>
                     <span className="flex-1 text-base">{value}</span>
-                    {selectedAnswer === key && <Check className="w-6 h-6 text-accent" />}
+                    {selectedAnswer === key && <Check className="w-6 h-6 text-accent"/>}
                   </div>
                 </Button>
               ))}
@@ -157,7 +172,7 @@ export default function Quiz() {
 
             {showFeedback && (
               <div className="absolute inset-0 bg-background/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300 z-10">
-                <BrainIcon type={selectedAnswer!} className="w-20 h-20 mb-4 text-primary animate-pulse" />
+                <BrainIcon type={selectedAnswer!} className="w-20 h-20 mb-4 text-primary animate-pulse"/>
                 <h3 className="text-3xl font-headline text-white mb-2">
                   {selectedAnswer === 'C' ? 'NEOCÓRTEX ATIVADO!' : selectedAnswer === 'B' ? 'SISTEMA LÍMBICO' : 'CÉREBRO REPTILIANO'}
                 </h3>
@@ -167,16 +182,6 @@ export default function Quiz() {
           </div>
         )}
       </Card>
-
-      <footer className="text-center mt-8 font-medium text-white" style={{ textShadow: '0 0 8px hsla(270, 100%, 70%, 0.7)' }}>
-        <p className="text-sm">O bullying não te define. O RESET sim. ⚡</p>
-        <div className="flex items-center justify-center gap-2 mt-2">
-          <span className="text-xs">Fortalece um amigo: Compartilhe o RESET.</span>
-          <button onClick={handleShare} className="p-1 rounded-full hover:bg-white/10 transition-colors">
-            <Share2 className="w-4 h-4" />
-          </button>
-        </div>
-      </footer>
     </div>
   );
 }
