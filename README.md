@@ -1,5 +1,5 @@
-# Firebase Studio
+# RESET
 
-This is a NextJS starter in Firebase Studio.
+Este é um aplicativo de quiz interativo chamado RESET, construído com Next.js.
 
-To get started, take a look at src/app/page.tsx.
+O objetivo do RESET é ajudar adolescentes a desenvolverem resiliência e força mental para lidar com situações de bullying, através de um quiz gamificado.
