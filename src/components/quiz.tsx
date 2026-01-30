@@ -46,14 +46,14 @@ export default function Quiz() {
   }, [currentQuestionIndex, xp, isLoaded]);
 
   const tocarSom = (tipo: 'A' | 'B' | 'C' | 'nivel') => {
-    const caminhos: Record<string, string> = {
-      'A': '/sounds/click.mp3',
-      'B': '/sounds/click.mp3',
-      'C': '/sounds/brain-power.mp3',
-      'nivel': '/sounds/level-up.mp3'
+    const sons: Record<string, string> = {
+      'A': 'sounds/click.mp3',
+      'B': 'sounds/click.mp3',
+      'C': 'sounds/brain-power.mp3',
+      'nivel': 'sounds/level-up.mp3'
     };
-    const audio = new Audio(caminhos[tipo]);
-    audio.play().catch(e => console.log('Áudio aguardando interação ou não encontrado'));
+    const audio = new Audio(sons[tipo]);
+    audio.play().catch(e => console.log("Aguardando interação para tocar som"));
   };
 
   const handleAnswerSelect = (key: string) => {
