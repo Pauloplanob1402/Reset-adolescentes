@@ -40,6 +40,11 @@ export default function Quiz() {
     }
   }, [currentQuestionIndex, xp, isLoaded]);
 
+  // Efeito para garantir que a seleção seja limpa a cada nova questão
+  useEffect(() => {
+    setSelectedAnswer(null);
+  }, [currentQuestionIndex]);
+
   const tocarSom = (tipo: 'A' | 'B' | 'C' | 'nivel') => {
     const sons: Record<string, string> = {
       'A': 'sounds/click.mp3',
@@ -60,7 +65,6 @@ export default function Quiz() {
     setShowFeedback(true);
     setTimeout(() => {
       setShowFeedback(false);
-      setSelectedAnswer(null);
       setCurrentQuestionIndex(prev => prev + 1);
       if ((currentQuestionIndex + 1) % 20 === 0) {
         tocarSom('nivel');
@@ -134,15 +138,15 @@ export default function Quiz() {
           <div className="relative flex-grow flex flex-col p-6 sm:p-8">
             <CardHeader className="p-0 mb-8">
               <CardDescription className="text-muted-foreground font-mono uppercase tracking-widest">
-                Missão {currentQuestion.id} / 100
+                Missão {currentQuestion?.id || currentQuestionIndex + 1} / {allQuestions.length}
               </CardDescription>
               <CardTitle className="text-2xl md:text-3xl font-medium text-foreground leading-tight mt-2">
-                {currentQuestion.texto}
+                {currentQuestion?.texto}
               </CardTitle>
             </CardHeader>
 
             <CardContent className="p-0 grid gap-4">
-              {Object.entries(currentQuestion.alternativas).map(([key, value]) => (
+              {currentQuestion && Object.entries(currentQuestion.alternativas).map(([key, value]) => (
                 <Button
                   key={key}
                   variant="outline"
@@ -169,6 +173,8 @@ export default function Quiz() {
                 </Button>
               ))}
             </CardContent>
+
+            <p className='text-center text-[10px] text-gray-500 mt-6'>Bullying é crime (Lei 14.811/24). Sua voz tem poder, procure ajuda.</p>
 
             {showFeedback && (
               <div className="absolute inset-0 bg-background/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300 z-10">
